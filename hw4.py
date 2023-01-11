@@ -1,12 +1,17 @@
-import streamlit as st
-from transformers import pipeline
-# Создаем модель для определения комментариев 
+from fastapi import FastAPI
+from transformers import pipeline 
+from pydantic import BaseModel
+# Создаем класс для возможности передачи текста 
+class Item(BaseModel):
+    text: str
+app = FastAPI()
+# Создаем модель 
 classifier = pipeline(model="SkolkovoInstitute/russian_toxicity_classifier")
-# Формируем заголовок для браузера
-st.title("Приложение определения токсичный комментариев на русском языке")
-# Строчка для ввода текста 
-name = st.text_input("Введите текст")
-# Кнопка для вывода результата 
-if(st.button('Отправить')):
-    result = classifier(name)
-    st.success(result)
+@app.get('/')
+def root():
+    return {'message': 'Hello World'}
+# Функция для определения токсичных комментариев и передачи теска 
+@app.post("/predict/")
+def predict(item: Item):
+    """Анализ токсичных комменатиев"""
+    return classifier(item.text )[0]
