@@ -1,5 +1,4 @@
---extra-index-url https://download.pytorch.org/whl/cpu
-fastapi
+-m pip install --upgrade pip
 uvicorn
 transformers
 torch
