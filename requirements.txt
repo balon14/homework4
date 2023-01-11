@@ -1,3 +1,7 @@
+fastapi
 uvicorn
-transformers
+transformers 
+sentencepiece
 torch
+pytest
+httpx
